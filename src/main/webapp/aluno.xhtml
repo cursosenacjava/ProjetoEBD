@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Aluno</title>
+        
+        <h:outputStylesheet library="css" name="bootstrap.min.css" />
+        <h:outputScript library="js" name="bootstrap.min.js" />
+        <h:outputScript library="js" name="jquery-3.2.1.min.js" />
+        
+        <a class="btn btn-primary" href="index.xhtml" role="button">Home</a>
+        <a class="btn btn-primary" href="classe.xhtml" role="button">Classes</a>
+        <a class="btn btn-primary" href="aluno.xhtml" role="button">Aluno</a>
+    </h:head>
+    <h:body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h:form id="formCadastroAluno">
+                        <fieldset>
+                            <legend>Dados do Aluno</legend>
+                            <div class="form-group">
+                                <h:outputLabel for="nome" value="Nome" />
+                                <h:inputText id="nome" value="#{alunoBean.aluno.nome}" styleClass="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <h:outputLabel for="descricao" value="Descrição" />
+                                <h:inputTextarea id="descricao" value="#{alunoBean.aluno.descricao}" styleClass="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <h:outputLabel for="classe" value="Classe" />
+                                <h:selectOneMenu id="classe" value="#{alunoBean.aluno.classe}" converter="classeConverter" styleClass="form-control">
+                                    <f:selectItem itemLabel="Selecione uma classe" itemDisabled="true" />
+                                    <f:selectItems value="#{alunoBean.classes}" var="classe" itemLabel="#{classe.nome}" itemValue="#{classe}" />
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group">
+                                <h:outputLabel for="quantidade" value="Quantidade" />
+                                <h:inputText id="quantidade" value="#{alunoBean.aluno.quantidade}" styleClass="form-control">
+                                    <f:convertNumber minFractionDigits="2" />
+                                </h:inputText>
+                            </div>
+                            <p:commandButton value="Salvar" action="#{alunoBean.salvar}" styleClass="btn btn-primary btn-block" process="@form" update="@all" />                                                            
+                        </fieldset>
+                    </h:form>
+                </div>
+                <div class="col-md-8">
+                    <h:form id="formListaAlunos">
+                        <fieldset>
+                            <legend>Lista de Alunos</legend>
+                            <h:dataTable id="tabelaAlunos" value="#{alunoBean.alunos}" var="aluno" styleClass="table table-striped table-hover">
+                                <h:column>
+                                    <f:facet name="header">Id</f:facet>
+                                    <h:outputText value="#{aluno.id}" />
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Nome</f:facet>
+                                    <h:outputText value="#{aluno.nome}" />
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Classe</f:facet>
+                                    <h:outputText value="#{aluno.classe.nome}" />
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Quantidade</f:facet>
+                                    <h:outputText value="#{aluno.quantidade}"></h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <p:commandButton value="editar" action="#{alunoBean.editar(aluno)}" styleClass="btn btn-success btn-block" process="@form" update="@all" />                                                                            
+                                </h:column>
+                                <h:column>
+                                    <p:commandButton value="excluir" action="#{alunoBean.excluir(aluno)}" styleClass="btn btn-danger btn-block" process="@form" update="@all" />                                                                          
+                                </h:column>
+                            </h:dataTable>
+                        </fieldset>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>
+
